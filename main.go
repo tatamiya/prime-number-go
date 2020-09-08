@@ -38,9 +38,13 @@ func checkPrimePool(target int) bool {
 
 	iFrom := 3
 	iTo := int(math.Sqrt(float64(target)) + 1)
-	lengthChunk := int((iTo - iFrom) / numProcesses)
 
-	var isPrime bool
+	// If iTo - iFrom = 13 and numProcesses = 4
+	// then, lengthChunk = 4 -> chunked into (4, 4, 4, 1)
+	// Without +1, lengthChunk = 3 -> chunked into (3, 3, 3, 3), leaving 13rd
+	lengthChunk := int((iTo-iFrom)/numProcesses) + 1
+
+	var isPrime bool = true
 	wg.Add(numProcesses)
 
 	for k := 0; k < numProcesses; k++ {
@@ -59,12 +63,16 @@ func checkPrimePool(target int) bool {
 
 func checkPrimeChunk(target int, iFrom int, iTo int, isPrime *bool) {
 	defer wg.Done()
-	for i := iFrom; i <= iTo; i += 2 {
+	if iFrom > iTo {
+		return
+	}
+
+	for i := iFrom; i < iTo; i += 2 {
 		if target%i == 0 {
+			*isPrime = false
 			return
 		}
 	}
-	*isPrime = true
 	return
 }
 

@@ -26,11 +26,11 @@ func TestCheckPrimeBasic(t *testing.T) {
 
 func TestCheckPrimePool(t *testing.T) {
 
-	//	assert.True(t, checkPrimePool(2))
-	//	assert.True(t, checkPrimePool(3))
-	//	assert.False(t, checkPrimePool(4))
-	//	assert.True(t, checkPrimePool(5))
-	//	assert.False(t, checkPrimePool(6))
+	assert.True(t, checkPrimePool(2))
+	assert.True(t, checkPrimePool(3))
+	assert.False(t, checkPrimePool(4))
+	assert.True(t, checkPrimePool(5))
+	assert.False(t, checkPrimePool(6))
 	assert.True(t, checkPrimePool(7))
 	assert.False(t, checkPrimePool(8))
 	assert.False(t, checkPrimePool(9))
