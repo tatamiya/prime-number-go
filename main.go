@@ -49,6 +49,9 @@ func checkPrimePool(target int) bool {
 
 	for k := 0; k < numProcesses; k++ {
 		iFromChunk := iFrom + lengthChunk*k
+		if iFromChunk%2 == 0 {
+			iFromChunk++
+		}
 		iToChunk := iFromChunk + lengthChunk
 		if iToChunk > iTo {
 			iToChunk = iTo

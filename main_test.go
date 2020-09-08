@@ -6,6 +6,11 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+const (
+	largeNonPrime = 100109100129100369
+	largePrime    = 100109100129100151
+)
+
 func TestCheckPrimeBasic(t *testing.T) {
 
 	assert.True(t, checkPrimeBasic(2))
@@ -21,7 +26,8 @@ func TestCheckPrimeBasic(t *testing.T) {
 	assert.False(t, checkPrimeBasic(27))
 	assert.True(t, checkPrimeBasic(31))
 
-	assert.True(t, checkPrimeBasic(30011))
+	assert.False(t, checkPrimeBasic(largeNonPrime))
+	assert.True(t, checkPrimeBasic(largePrime))
 }
 
 func TestCheckPrimePool(t *testing.T) {
@@ -36,9 +42,33 @@ func TestCheckPrimePool(t *testing.T) {
 	assert.False(t, checkPrimePool(9))
 	assert.False(t, checkPrimePool(10))
 
-	assert.False(t, checkPrimeBasic(27))
-	assert.True(t, checkPrimeBasic(31))
+	assert.False(t, checkPrimePool(27))
+	assert.True(t, checkPrimePool(31))
 
-	// ToDo: Bench mark test for large prime / non-prime numbers
-	assert.True(t, checkPrimeBasic(30011))
+	assert.False(t, checkPrimePool(largeNonPrime))
+	assert.True(t, checkPrimePool(largePrime))
+}
+
+func BenchmarkCheckPrimeCheckBasic_largePrime(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		checkPrimeBasic(largePrime)
+	}
+}
+
+func BenchmarkCheckPrimeCheckPool_largePrime(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		checkPrimePool(largePrime)
+	}
+}
+
+func BenchmarkCheckPrimeCheckBasic_largeNonPrime(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		checkPrimeBasic(largeNonPrime)
+	}
+}
+
+func BenchmarkCheckPrimeCheckPool_largeNonPrime(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		checkPrimePool(largeNonPrime)
+	}
 }
