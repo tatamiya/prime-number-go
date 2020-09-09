@@ -97,21 +97,28 @@ func checkPrimeIPC(target int) bool {
 
 }
 
+const checkEvery = 100
+
 func checkPrimeChunk(target int, iFrom int, iTo int, isPrime *bool) {
 	defer wg.Done()
 	if iFrom > iTo {
 		return
 	}
+	for lower := iFrom; lower < iTo; lower += checkEvery {
+		upper := lower + checkEvery
+		if upper > iTo {
+			upper = iTo
+		}
 
-	for i := iFrom; i < iTo; i += 2 {
-		if target%i == 0 {
-			*isPrime = false
+		for i := lower; i < upper; i += 2 {
+			if target%i == 0 {
+				*isPrime = false
+				return
+			}
+		}
+		if *isPrime == false {
 			return
 		}
-	}
-
-	if *isPrime == false {
-		return
 	}
 
 	return
