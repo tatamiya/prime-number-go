@@ -6,7 +6,7 @@ import (
 	"sync"
 )
 
-func checkPrimeBasic(target int) bool {
+func checkPrimeSequential(target int) bool {
 	if target == 2 {
 		return true
 	}
@@ -27,7 +27,40 @@ var wg sync.WaitGroup
 
 const numProcesses = 4
 
-func checkPrimePool(target int) bool {
+//func checkPrimeParallel(target int) bool {
+//
+//	if target == 2 {
+//		return true
+//	}
+//	if target%2 == 0 {
+//		return false
+//	}
+//
+//	iFrom := 3
+//	iTo := int(math.Sqrt(float64(target)) + 1)
+//
+//	var isPrime bool = true
+//
+//	for i := iFrom; i < iTo; i += 2 {
+//		wg.Add(1)
+//
+//		go func(target int, i int, isPrime *bool) {
+//			defer wg.Done()
+//
+//			if target%i == 0 {
+//				*isPrime = false
+//			}
+//			return
+//		}(target, i, &isPrime)
+//
+//	}
+//
+//	wg.Wait()
+//
+//	return isPrime
+//}
+
+func checkPrimeIPC(target int) bool {
 
 	if target == 2 {
 		return true
@@ -76,12 +109,17 @@ func checkPrimeChunk(target int, iFrom int, iTo int, isPrime *bool) {
 			return
 		}
 	}
+
+	if *isPrime == false {
+		return
+	}
+
 	return
 }
 
 func main() {
 	for _, i := range []int{2, 3, 4, 5, 27, 31} {
-		isPrime := checkPrimeBasic(i)
+		isPrime := checkPrimeSequential(i)
 		fmt.Printf("Is %d a prime number?: %t\n", i, isPrime)
 	}
 }

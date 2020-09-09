@@ -11,64 +11,83 @@ const (
 	largePrime    = 100109100129100151
 )
 
-func TestCheckPrimeBasic(t *testing.T) {
+func TestCheckPrimeSequential(t *testing.T) {
 
-	assert.True(t, checkPrimeBasic(2))
-	assert.True(t, checkPrimeBasic(3))
-	assert.False(t, checkPrimeBasic(4))
-	assert.True(t, checkPrimeBasic(5))
-	assert.False(t, checkPrimeBasic(6))
-	assert.True(t, checkPrimeBasic(7))
-	assert.False(t, checkPrimeBasic(8))
-	assert.False(t, checkPrimeBasic(9))
-	assert.False(t, checkPrimeBasic(10))
+	assert.True(t, checkPrimeSequential(2))
+	assert.True(t, checkPrimeSequential(3))
+	assert.False(t, checkPrimeSequential(4))
+	assert.True(t, checkPrimeSequential(5))
+	assert.False(t, checkPrimeSequential(6))
+	assert.True(t, checkPrimeSequential(7))
+	assert.False(t, checkPrimeSequential(8))
+	assert.False(t, checkPrimeSequential(9))
+	assert.False(t, checkPrimeSequential(10))
 
-	assert.False(t, checkPrimeBasic(27))
-	assert.True(t, checkPrimeBasic(31))
+	assert.False(t, checkPrimeSequential(27))
+	assert.True(t, checkPrimeSequential(31))
 
-	assert.False(t, checkPrimeBasic(largeNonPrime))
-	assert.True(t, checkPrimeBasic(largePrime))
+	assert.False(t, checkPrimeSequential(largeNonPrime))
+	assert.True(t, checkPrimeSequential(largePrime))
 }
 
-func TestCheckPrimePool(t *testing.T) {
+//func TestCheckPrimeParallel(t *testing.T) {
+//
+//	assert.True(t, checkPrimeParallel(2))
+//	assert.True(t, checkPrimeParallel(3))
+//	assert.False(t, checkPrimeParallel(4))
+//	assert.True(t, checkPrimeParallel(5))
+//	assert.False(t, checkPrimeParallel(6))
+//	assert.True(t, checkPrimeParallel(7))
+//	assert.False(t, checkPrimeParallel(8))
+//	assert.False(t, checkPrimeParallel(9))
+//	assert.False(t, checkPrimeParallel(10))
+//
+//	assert.False(t, checkPrimeParallel(27))
+//	assert.True(t, checkPrimeParallel(31))
+//
+//	assert.False(t, checkPrimeParallel(largeNonPrime))
+//	assert.True(t, checkPrimeParallel(largePrime))
+//}
 
-	assert.True(t, checkPrimePool(2))
-	assert.True(t, checkPrimePool(3))
-	assert.False(t, checkPrimePool(4))
-	assert.True(t, checkPrimePool(5))
-	assert.False(t, checkPrimePool(6))
-	assert.True(t, checkPrimePool(7))
-	assert.False(t, checkPrimePool(8))
-	assert.False(t, checkPrimePool(9))
-	assert.False(t, checkPrimePool(10))
+func TestCheckPrimeIPC(t *testing.T) {
 
-	assert.False(t, checkPrimePool(27))
-	assert.True(t, checkPrimePool(31))
+	assert.True(t, checkPrimeIPC(2))
+	assert.True(t, checkPrimeIPC(3))
+	assert.False(t, checkPrimeIPC(4))
+	assert.True(t, checkPrimeIPC(5))
+	assert.False(t, checkPrimeIPC(6))
+	assert.True(t, checkPrimeIPC(7))
+	assert.False(t, checkPrimeIPC(8))
+	assert.False(t, checkPrimeIPC(9))
+	assert.False(t, checkPrimeIPC(10))
 
-	assert.False(t, checkPrimePool(largeNonPrime))
-	assert.True(t, checkPrimePool(largePrime))
+	assert.False(t, checkPrimeIPC(27))
+	assert.True(t, checkPrimeIPC(31))
+
+	assert.False(t, checkPrimeIPC(largeNonPrime))
+	assert.True(t, checkPrimeIPC(largePrime))
 }
 
-func BenchmarkCheckPrimeCheckBasic_largePrime(b *testing.B) {
+func BenchmarkCheckPrimeSequential_largePrime(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		checkPrimeBasic(largePrime)
+		checkPrimeSequential(largePrime)
 	}
 }
 
-func BenchmarkCheckPrimeCheckPool_largePrime(b *testing.B) {
+func BenchmarkCheckPrimeIPC_largePrime(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		checkPrimePool(largePrime)
+		checkPrimeIPC(largePrime)
 	}
 }
 
-func BenchmarkCheckPrimeCheckBasic_largeNonPrime(b *testing.B) {
+func BenchmarkCheckPrimeSequential_largeNonPrime(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		checkPrimeBasic(largeNonPrime)
+		checkPrimeSequential(largeNonPrime)
 	}
 }
 
-func BenchmarkCheckPrimeCheckPool_largeNonPrime(b *testing.B) {
+func BenchmarkCheckPrimeIPC_largeNonPrime(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		checkPrimePool(largeNonPrime)
+		checkPrimeIPC(largeNonPrime)
 	}
 }
