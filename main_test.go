@@ -42,6 +42,10 @@ func TestCheckPrimeIPC(t *testing.T) {
 	testHelper(t, checkPrimeIPC)
 }
 
+func TestCheckPrimeParallel(t *testing.T) {
+	testHelper(t, checkPrimeParallel)
+}
+
 func BenchmarkCheckPrimeSequential_largePrime1(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		checkPrimeSequential(largePrime1)

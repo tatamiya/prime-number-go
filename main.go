@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math"
+	"runtime"
 	"sync"
 )
 
@@ -27,38 +28,39 @@ var wg sync.WaitGroup
 
 const numProcesses = 4
 
-//func checkPrimeParallel(target int) bool {
-//
-//	if target == 2 {
-//		return true
-//	}
-//	if target%2 == 0 {
-//		return false
-//	}
-//
-//	iFrom := 3
-//	iTo := int(math.Sqrt(float64(target)) + 1)
-//
-//	var isPrime bool = true
-//
-//	for i := iFrom; i < iTo; i += 2 {
-//		wg.Add(1)
-//
-//		go func(target int, i int, isPrime *bool) {
-//			defer wg.Done()
-//
-//			if target%i == 0 {
-//				*isPrime = false
-//			}
-//			return
-//		}(target, i, &isPrime)
-//
-//	}
-//
-//	wg.Wait()
-//
-//	return isPrime
-//}
+func checkPrimeParallel(target int) bool {
+
+	runtime.GOMAXPROCS(numProcesses)
+
+	if target == 2 {
+		return true
+	}
+	if target%2 == 0 {
+		return false
+	}
+
+	iFrom := 3
+	iTo := int(math.Sqrt(float64(target)) + 1)
+
+	var isPrime bool = true
+
+	for i := iFrom; i < iTo; i += 2 {
+		wg.Add(1)
+
+		go func(target int, i int, isPrime *bool) {
+			defer wg.Done()
+
+			if target%i == 0 {
+				*isPrime = false
+			}
+			return
+		}(target, i, &isPrime)
+	}
+
+	wg.Wait()
+
+	return isPrime
+}
 
 func checkPrimeIPC(target int) bool {
 
